@@ -14,7 +14,8 @@ def obtain_audio_from_mic(message):
     # obtain audio from the microphone
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        speak(message)
+        if message != None:
+            speak(message)
         audio = r.listen(source)
     return audio
 
@@ -33,3 +34,13 @@ def perform_google_search(query):
     # perform Google search
     url = "https://www.google.com/search?q=" + query
     webbrowser.open_new(url)
+
+
+# def convert_speech_to_text_for_mouse(audio):
+#     try:
+#         r = sr.Recognizer()
+#         query = r.recognize_google(audio, language="el-GR")
+#         #speak(query)
+#         return query
+#     except sr.UnknownValueError:
+#         return 0
