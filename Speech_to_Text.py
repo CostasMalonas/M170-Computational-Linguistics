@@ -34,13 +34,3 @@ def perform_google_search(query):
     # perform Google search
     url = "https://www.google.com/search?q=" + query
     webbrowser.open_new(url)
-
-
-# def convert_speech_to_text_for_mouse(audio):
-#     try:
-#         r = sr.Recognizer()
-#         query = r.recognize_google(audio, language="el-GR")
-#         #speak(query)
-#         return query
-#     except sr.UnknownValueError:
-#         return 0
