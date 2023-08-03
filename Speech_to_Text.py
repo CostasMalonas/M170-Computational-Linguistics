@@ -11,7 +11,7 @@ def speak(message):
 
 
 def obtain_audio_from_mic(message):
-    # obtain audio from the microphone
+    # πάρε audio από το mic
     r = sr.Recognizer()
     with sr.Microphone() as source:
         if message != None:
@@ -24,13 +24,12 @@ def convert_speech_to_text(audio):
     try:
         r = sr.Recognizer()
         query = r.recognize_google(audio, language="el-GR")
-        #speak(query)
         return query
     except sr.UnknownValueError:
         return 0
 
 
 def perform_google_search(query):
-    # perform Google search
+    # εκτέλεσε Google search
     url = "https://www.google.com/search?q=" + query
     webbrowser.open_new(url)
