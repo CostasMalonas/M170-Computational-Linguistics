@@ -20,7 +20,7 @@ def draw_grid(screen):
     for y in range(0, SCREEN_HEIGHT, GRID_SIZE):
         pygame.draw.line(screen, GRID_COLOR, (0, y), (SCREEN_WIDTH, y))
 
-def main():
+def grid():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.NOFRAME)
     pygame.display.set_caption("Grid Lines")
@@ -44,5 +44,3 @@ def main():
 
         clock.tick(60)  # Limit the frame rate to 60 FPS
 
-if __name__ == "__main__":
-    main()
