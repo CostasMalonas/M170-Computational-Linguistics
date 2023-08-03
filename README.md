@@ -6,9 +6,9 @@ Project για το μάθημα Μ170 Υπολογιστική Γλωσσολο
 Φωνητικές Εντολές:
    1) **πάνω - κάτω - αριστερά - δεξιά αριθμός** <br> π.χ **(δεξιά 100)**
        Ο mouse cursor θα μετακινηθεί **100 pixel δεξιά**
-   2) **νέα αναζήτηση** 
+   2) **νέα αναζήτηση** <br>
        Θα πούμε το καινούργιο search term αφού πρώτα το πρόγραμμα μας πεί "Please say your search term"
-   3) **click - κλίκ** (same thing :D)
+   3) **click - κλίκ** (same thing :D) <br>
        Για το mouse click functionality
    5) **type** <br>
       Όταν το mouse cursor είναι π.χ **πάνω από κάποιο search bar** και **πούμε click** και εφανιστεί το **cursor**
