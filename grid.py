@@ -32,15 +32,18 @@ def grid():
 
     clock = pygame.time.Clock()
 
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+    # while True:
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.QUIT:
+    #             print('HERE')
+    #             pygame.quit()
+    #             #sys.exit()
 
-        screen.fill((0, 0, 0, 0))  # Fill the screen with fully transparent color
-        draw_grid(screen)  # Draw the grid lines on top of the transparent screen
-        pygame.display.update()
+    screen.fill((0, 0, 0, 0))  # Fill the screen with fully transparent color
+    draw_grid(screen)  # Draw the grid lines on top of the transparent screen
+    pygame.display.update()
 
-        clock.tick(60)  # Limit the frame rate to 60 FPS
+    clock.tick(60)  # Limit the frame rate to 60 FPS
 
+def close():
+    pygame.display.quit()

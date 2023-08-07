@@ -2,6 +2,8 @@ import Speech_to_Text as sp
 import Browser as br
 import time
 import pyautogui
+import grid as grid
+from threading import Thread
 
 class MouseController:
     """
@@ -71,6 +73,7 @@ class MouseController:
             self.br_obj.accept_google_cookies()
 
         while True:
+            print('Continued after thread\n')
             audio_query = sp.obtain_audio_from_mic(None)
             time.sleep(2)
             self.text_query = sp.convert_speech_to_text(audio_query)
@@ -94,6 +97,14 @@ class MouseController:
                 self.num_of_search = 1
                 self.search_bar_text = ""
                 self.start()  # Πραγματοποίησε νέα αναζήτηση 
+
+            if 'open' in self.text_query.lower():
+                #print('HEEEEEERE')
+                thread = Thread(grid.grid()) # Σημείωση: να το κάνω με threads
+                thread.start()
+            elif 'close' in self.text_query.lower():
+                grid.close()
+                #pyautogui.click()
 
             direction, num = query_parts
             try:
