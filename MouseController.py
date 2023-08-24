@@ -1,4 +1,4 @@
-import Speech_to_Text as sp
+import SpeechToText as sp
 import Browser as br
 import time
 import pyautogui
@@ -55,7 +55,7 @@ class MouseController:
                         self.search_bar_text = self.search_bar_text + search_term
                         pyautogui.press("enter")
                         break
-            elif self.text_query.lower() == "delete" or self.text_query.lower() == "elite" or self.text_query.lower() == "διαγραφή":
+            elif self.text_query.lower() in ["delete", "elite", "διαγραφή"]:
                 pyautogui.press("backspace", presses=len(self.search_bar_text))
                 self.search_bar_text = ""
 
