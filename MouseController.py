@@ -4,6 +4,7 @@ import time
 import pyautogui
 import grid as grid
 from threading import Thread
+import WORDS as w
 
 class MouseController:
     """
@@ -37,14 +38,14 @@ class MouseController:
             # self.text_query = sp.convert_speech_to_text(audio_query)
             # print(self.text_query)
 
-            if self.text_query.lower() == "type":
+            if self.text_query.lower() == w.TYPE:
                 # Αναμονή για να μιλήσει ο user αφού πεί "type"
                 audio_search = sp.obtain_audio_from_mic("Please say what you want to type")
                 search_term = sp.convert_speech_to_text(audio_search)
                 print(f'search term: {search_term}')
 
                 if search_term != 0:
-                    if search_term.lower() == "delete" or 'lidl' in search_term.lower():
+                    if search_term.lower() == w.DELETE_WORD_1 or w.DELETE_WORD_2 in search_term.lower():
                         # Διαγραγή του τυχόν υπάρχοντος κειμένου στο search bar
                         pyautogui.click(clicks=4)
                         pyautogui.press("backspace")
@@ -55,13 +56,13 @@ class MouseController:
                         self.search_bar_text = self.search_bar_text + search_term
                         pyautogui.press("enter")
                         break
-            elif self.text_query.lower() in ["delete", "elite", "διαγραφή"]:
+            elif self.text_query.lower() in [w.DELETE_WORD_1, w.DELETE_WORD_2, w.DELETE_WORD_3, w.DELETE_WORD_4]:
                 pyautogui.press("backspace", presses=len(self.search_bar_text))
                 self.search_bar_text = ""
 
     def start(self):
         while True:
-            audio_query = sp.obtain_audio_from_mic("Please say the term you want to search")
+            audio_query = sp.obtain_audio_from_mic(w.MESSAGE) # Please say what you want to search
             self.text_query = sp.convert_speech_to_text(audio_query)
             if self.text_query == 0:
                 continue
@@ -69,7 +70,7 @@ class MouseController:
                 break
 
         self.br_obj.perform_google_search(self.text_query)
-        if self.num_of_search == 0:
+        if self.num_of_search == 0: # Αν ο χρήστης κάνει αναζήτηση πρώτη φορά accept τα cookies
             self.br_obj.accept_google_cookies()
 
         while True:
@@ -85,22 +86,21 @@ class MouseController:
                 continue
 
             if len(query_parts) != 2:
-                if self.text_query.lower() == 'κλικ':
+                if self.text_query.lower() in [w.CLICK, w.CLICK_1]:
                     pyautogui.click()  # Εκτέλεσε mouse click
-                elif self.text_query.lower() == 'πίσω':
+                elif self.text_query.lower() == w.BACK:
                     self.br_obj.driver.back()  # Πήγαινε πίσω στην προηγούμενη σελίδα
-                elif self.text_query.lower() == 'type':
+                elif self.text_query.lower() == w.TYPE:
                     self.type_in_search_bar()
-                elif 'open' in self.text_query.lower():
-                    print('HEEEEEERE')
+                elif self.text_query.lower() in [w.OPEN_GRID_1, w.OPEN_GRID_2, w.OPEN_GRID_3, w.OPEN_GRID_4]:
                     thread = Thread(grid.grid()) # Σημείωση: να το κάνω με threads
                     thread.start()
-                elif 'close' in self.text_query.lower():
+                elif self.text_query.lower() in [w.CLOSE_GRID_1, w.CLOSE_GRID_2, w.CLOSE_GRID_3, w.CLOSE_GRID_4]:
                     grid.close()
                     #pyautogui.click()
                 continue  # Αν query_parts != 2 πήγαινε στην αρχή του loop
 
-            if self.text_query.lower() == 'νέα αναζήτηση':
+            if self.text_query.lower() == w.NEW_SEARCH:
                 self.num_of_search = 1
                 self.search_bar_text = ""
                 self.start()  # Πραγματοποίησε νέα αναζήτηση 
@@ -109,8 +109,8 @@ class MouseController:
 
             direction, num = query_parts
             try:
-                if num == 'χείλια' or num == 'κοιλιά':
-                    num = '1000'
+                if num == w.THOUSAND_1 or num == w.THOUSAND_2:
+                    num = w.THOUSAND
                 int(num)
             except:
                 continue
@@ -128,22 +128,22 @@ class MouseController:
         else:
             num = 10
 
-        if direction.strip() == 'κάτω':
+        if direction.strip() == w.DOWN:
             new_x = current_x
             new_y = current_y + num
             if new_y > pyautogui.size().height:
                 # Αν το ποντίκι είναι out of sight -> scroll down
                 pyautogui.press('down', presses=9)
-        elif direction.strip() == 'πάνω' or direction == 'πάνο':
+        elif direction.strip() == w.UP_1 or direction == w.UP_2:
             new_x = current_x
             new_y = current_y - num
             if new_y < 0:
                 # # Αν το ποντίκι είναι out of sight -> scroll up
                 pyautogui.press('up', presses=9)
-        elif direction.strip() == 'δεξιά':
+        elif direction.strip() == w.RIGHT:
             new_x = current_x + num
             new_y = current_y
-        elif direction.strip() == 'αριστερά':
+        elif direction.strip() == w.LEFT:
             new_x = current_x - num
             new_y = current_y
         else:
