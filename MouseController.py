@@ -1,3 +1,5 @@
+from selenium.webdriver.common.by import By
+
 import SpeechToText as sp
 import Browser as br
 import time
@@ -86,8 +88,25 @@ class MouseController:
                 except:
                     continue
 
-                if self.text_query.lower() in [w.CLICK_1, w.CLICK_2, w.CLICK_3]:
-                    pyautogui.click()  # Εκτέλεσε mouse click
+                if query_parts[0].lower() in [w.CLICK_1, w.CLICK_2, w.CLICK_3]:
+                    if len(query_parts) > 1:
+                        elem_text = ' '.join(query_parts[1:]).lower().strip()
+                        print(elem_text)
+                        try:
+                            element = self.br_obj.driver.find_elements(By.XPATH, f"//a[translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩö', 'abcdefghijklmnopqrstuvwxyzαβγδεζηθικλμνξοπρστυφχψωo') = '{elem_text}']")[0]
+                            element.click()
+                        except:
+                            print('No such link with text:', elem_text)
+                    else:
+                        pyautogui.click()  # Εκτέλεσε mouse click
+                elif query_parts[0].lower() == w.PRESS and len(query_parts) > 1: # Κουμπιά
+                    elem_text = ' '.join(query_parts[1:]).lower().strip()
+                    print(elem_text)
+                    try:
+                        element = self.br_obj.driver.find_elements(By.XPATH, f"//button[translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩö', 'abcdefghijklmnopqrstuvwxyzαβγδεζηθικλμνξοπρστυφχψωö') = '{elem_text}']")[0]
+                        element.click()
+                    except:
+                        print('No such button with text:', elem_text)
                 elif self.text_query.lower() == w.BACK:
                     self.br_obj.driver.back()  # Πήγαινε πίσω στην προηγούμενη σελίδα
                 elif self.text_query.lower() == w.TYPE:
