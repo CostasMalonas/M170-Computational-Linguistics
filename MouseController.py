@@ -100,10 +100,17 @@ class MouseController:
                     self.num_of_search += 1
                     self.search_bar_text = ""
                     break
-                elif query_parts[0].lower() in [w.DOWN, w.LEFT, w.RIGHT, w.UP_1, w.UP_2]: # Εντολή μετακίνησης κέρσορα
+                elif query_parts[0].lower() in [w.DOWN, w.DOWN_2, w.LEFT, w.LEFT_2, w.RIGHT, w.RIGHT_2, w.UP_1, w.UP_2, w.UP_3]: # Εντολή μετακίνησης κέρσορα
                     direction = query_parts[0].lower()
                     num = self.parse_number(query_parts[1].lower())
                     self.move_mouse(direction, num)
+                elif query_parts[0].lower() == w.SCROLL and len(query_parts) == 3:
+                    direction = query_parts[1].lower()
+                    amount = self.parse_number(query_parts[2].lower())
+                    if direction in [w.DOWN, w.DOWN_2]:
+                        pyautogui.scroll(-amount)
+                    elif direction in [w.UP_1, w.UP_2, w.UP_3]:
+                        pyautogui.scroll(amount)
                 elif self.text_query.lower() in [w.EXIT_1, w.EXIT_2]:
                     running = False
                     break
@@ -127,22 +134,22 @@ class MouseController:
     def move_mouse(self, direction, num):
         current_x, current_y = pyautogui.position()
 
-        if direction.strip() == w.DOWN:
+        if direction.strip() in [w.DOWN, w.DOWN_2]:
             new_x = current_x
             new_y = current_y + num
             if new_y > pyautogui.size().height:
                 # Αν το ποντίκι είναι out of sight -> scroll down
                 pyautogui.press('down', presses=9)
-        elif direction.strip() == w.UP_1 or direction == w.UP_2:
+        elif direction.strip() in [w.UP_1, w.UP_2, w.UP_3]:
             new_x = current_x
             new_y = current_y - num
             if new_y < 0:
                 # # Αν το ποντίκι είναι out of sight -> scroll up
                 pyautogui.press('up', presses=9)
-        elif direction.strip() == w.RIGHT:
+        elif direction.strip() in [w.RIGHT, w.RIGHT_2]:
             new_x = current_x + num
             new_y = current_y
-        elif direction.strip() == w.LEFT:
+        elif direction.strip() in [w.LEFT, w.LEFT_2]:
             new_x = current_x - num
             new_y = current_y
         else:
