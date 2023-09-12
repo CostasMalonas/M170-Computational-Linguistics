@@ -3,7 +3,6 @@ import Browser as br
 import time
 import pyautogui
 import grid as grid
-from threading import Thread
 import WORDS as w
 
 class MouseController:
@@ -61,31 +60,32 @@ class MouseController:
                 self.search_bar_text = ""
 
     def start(self):
-        while True:
-            audio_query = sp.obtain_audio_from_mic(w.MESSAGE) # Please say what you want to search
-            self.text_query = sp.convert_speech_to_text(audio_query)
-            if self.text_query == 0:
-                continue
-            else:
-                break
+        running = True
+        while running:
+            while True:
+                audio_query = sp.obtain_audio_from_mic(w.MESSAGE) # Please say what you want to search
+                self.text_query = sp.convert_speech_to_text(audio_query)
+                if self.text_query == 0:
+                    continue
+                else:
+                    break
 
-        self.br_obj.perform_google_search(self.text_query)
-        if self.num_of_search == 0: # Αν ο χρήστης κάνει αναζήτηση πρώτη φορά accept τα cookies
-            self.br_obj.accept_google_cookies()
+            self.br_obj.perform_google_search(self.text_query)
+            if self.num_of_search == 0: # Αν ο χρήστης κάνει αναζήτηση πρώτη φορά accept τα cookies
+                self.br_obj.accept_google_cookies()
 
-        while True:
-            print('Continued after thread\n')
-            audio_query = sp.obtain_audio_from_mic(None)
-            time.sleep(2)
-            self.text_query = sp.convert_speech_to_text(audio_query)
-            print(self.text_query)
-            
-            try:
-                query_parts = self.text_query.split()
-            except:
-                continue
+            while True:
+                print('Continued after thread\n')
+                audio_query = sp.obtain_audio_from_mic(None)
+                time.sleep(2)
+                self.text_query = sp.convert_speech_to_text(audio_query)
+                print(self.text_query)
 
-            if len(query_parts) != 2:
+                try:
+                    query_parts = self.text_query.split()
+                except:
+                    continue
+
                 if self.text_query.lower() in [w.CLICK, w.CLICK_1]:
                     pyautogui.click()  # Εκτέλεσε mouse click
                 elif self.text_query.lower() == w.BACK:
@@ -93,40 +93,36 @@ class MouseController:
                 elif self.text_query.lower() == w.TYPE:
                     self.type_in_search_bar()
                 elif self.text_query.lower() in [w.OPEN_GRID_1, w.OPEN_GRID_2, w.OPEN_GRID_3, w.OPEN_GRID_4]:
-                    thread = Thread(grid.grid()) # Σημείωση: να το κάνω με threads
-                    thread.start()
+                    grid.grid()
                 elif self.text_query.lower() in [w.CLOSE_GRID_1, w.CLOSE_GRID_2, w.CLOSE_GRID_3, w.CLOSE_GRID_4]:
                     grid.close()
-                    #pyautogui.click()
-                continue  # Αν query_parts != 2 πήγαινε στην αρχή του loop
+                elif self.text_query.lower() == w.NEW_SEARCH:
+                    self.num_of_search = 1
+                    self.search_bar_text = ""
+                    break
+                elif query_parts[0].lower() in [w.DOWN, w.LEFT, w.RIGHT, w.UP_1, w.UP_2]: # Εντολή μετακίνησης κέρσορα
+                    direction = query_parts[0].lower()
+                    num = self.parse_number(query_parts[1].lower())
+                    self.move_mouse(direction, num)
+                elif self.text_query.lower() in [w.EXIT_1, w.EXIT_2]:
+                    running = False
+                    break
 
-            if self.text_query.lower() == w.NEW_SEARCH:
-                self.num_of_search = 1
-                self.search_bar_text = ""
-                self.start()  # Πραγματοποίησε νέα αναζήτηση 
+    def parse_number(self, num_str: str):
+        # Σε περίπτωση που πει 1000 και το αναγνωρίσει ως "χείλια":
+        if num_str == w.THOUSAND_1 or num_str == w.THOUSAND_2:
+            return 1000
 
+        num = 0
+        if num_str is not None and len(num_str) > 0:
+            if '.' in num_str:
+                num_str = num_str.replace('.', '')
+            num = int(num_str)
 
-
-            direction, num = query_parts
-            try:
-                if num == w.THOUSAND_1 or num == w.THOUSAND_2:
-                    num = w.THOUSAND
-                int(num)
-            except:
-                continue
-
-            self.move_mouse(direction.lower(), num)
+        return num
 
     def move_mouse(self, direction, num):
         current_x, current_y = pyautogui.position()
-        if num != None:
-            if '.' in num:
-                num = num.replace('.', '')
-            # if num.lower().strip() == 'χείλια' or num.lower().strip() == 'κοιλιά':
-            #     num = '1000'
-            num = int(num)
-        else:
-            num = 10
 
         if direction.strip() == w.DOWN:
             new_x = current_x
