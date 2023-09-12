@@ -88,7 +88,7 @@ class MouseController:
                 except:
                     continue
 
-                if query_parts[0].lower() in [w.CLICK_1, w.CLICK_2, w.CLICK_3]:
+                if query_parts[0].lower() in [w.CLICK_1, w.CLICK_2, w.CLICK_3, w.CLICK_4, w.CLICK_5, w.CLICK_6]:
                     if len(query_parts) > 1:
                         elem_text = ' '.join(query_parts[1:]).lower().strip()
                         print(elem_text)
@@ -102,11 +102,31 @@ class MouseController:
                 elif query_parts[0].lower() == w.PRESS and len(query_parts) > 1: # Κουμπιά
                     elem_text = ' '.join(query_parts[1:]).lower().strip()
                     print(elem_text)
+                    found = False
                     try:
                         element = self.br_obj.driver.find_elements(By.XPATH, f"//button[translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩö', 'abcdefghijklmnopqrstuvwxyzαβγδεζηθικλμνξοπρστυφχψωö') = '{elem_text}']")[0]
                         element.click()
+                        found = True
                     except:
                         print('No such button with text:', elem_text)
+
+                    if not found:
+                        try:
+                            element = self.br_obj.driver.find_elements(By.XPATH, f"//span[translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩö', 'abcdefghijklmnopqrstuvwxyzαβγδεζηθικλμνξοπρστυφχψωö') = '{elem_text}']")[0]
+                            element.click()
+                            found = True 
+                        except:
+                            print('No such span with text:', elem_text)
+
+                    if not found:
+                        try:
+                            element = self.br_obj.driver.find_elements(By.XPATH, f"//div[@role='button' and translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩö', 'abcdefghijklmnopqrstuvwxyzαβγδεζηθικλμνξοπρστυφχψωö') = '{elem_text}']")[0]
+                            element.click()
+                            found = True 
+                        except:
+                            print('No such button with text:', elem_text)
+
+
                 elif self.text_query.lower() == w.BACK:
                     self.br_obj.driver.back()  # Πήγαινε πίσω στην προηγούμενη σελίδα
                 elif self.text_query.lower() == w.TYPE:
