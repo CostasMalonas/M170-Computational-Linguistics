@@ -117,7 +117,10 @@ class MouseController:
         if num_str is not None and len(num_str) > 0:
             if '.' in num_str:
                 num_str = num_str.replace('.', '')
-            num = int(num_str)
+            try:
+                num = int(num_str)
+            except ValueError:
+                pass
 
         return num
 
