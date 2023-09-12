@@ -86,7 +86,7 @@ class MouseController:
                 except:
                     continue
 
-                if self.text_query.lower() in [w.CLICK, w.CLICK_1]:
+                if self.text_query.lower() in [w.CLICK_1, w.CLICK_2, w.CLICK_3]:
                     pyautogui.click()  # Εκτέλεσε mouse click
                 elif self.text_query.lower() == w.BACK:
                     self.br_obj.driver.back()  # Πήγαινε πίσω στην προηγούμενη σελίδα
@@ -97,7 +97,7 @@ class MouseController:
                 elif self.text_query.lower() in [w.CLOSE_GRID_1, w.CLOSE_GRID_2, w.CLOSE_GRID_3, w.CLOSE_GRID_4]:
                     grid.close()
                 elif self.text_query.lower() == w.NEW_SEARCH:
-                    self.num_of_search = 1
+                    self.num_of_search += 1
                     self.search_bar_text = ""
                     break
                 elif query_parts[0].lower() in [w.DOWN, w.LEFT, w.RIGHT, w.UP_1, w.UP_2]: # Εντολή μετακίνησης κέρσορα
