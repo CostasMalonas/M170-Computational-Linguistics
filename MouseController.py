@@ -46,7 +46,7 @@ class MouseController:
                 print(f'search term: {search_term}')
 
                 if search_term != 0:
-                    if search_term.lower() == w.DELETE_WORD_1 or w.DELETE_WORD_2 in search_term.lower():
+                    if search_term.lower() in w.DELETE_LS:
                         # Διαγραγή του τυχόν υπάρχοντος κειμένου στο search bar
                         pyautogui.click(clicks=4)
                         pyautogui.press("backspace")
@@ -57,7 +57,7 @@ class MouseController:
                         self.search_bar_text = self.search_bar_text + search_term
                         pyautogui.press("enter")
                         break
-            elif self.text_query.lower() in [w.DELETE_WORD_1, w.DELETE_WORD_2, w.DELETE_WORD_3, w.DELETE_WORD_4]:
+            elif self.text_query.lower() in w.DELETE_LS:
                 pyautogui.press("backspace", presses=len(self.search_bar_text))
                 self.search_bar_text = ""
 
@@ -88,12 +88,12 @@ class MouseController:
                 except:
                     continue
 
-                if query_parts[0].lower() in [w.CLICK_1, w.CLICK_2, w.CLICK_3, w.CLICK_4, w.CLICK_5, w.CLICK_6]:
+                if query_parts[0].lower() in w.CLICK_LS:
                     if len(query_parts) > 1:
                         elem_text = ' '.join(query_parts[1:]).lower().strip()
                         print(elem_text)
                         try:
-                            element = self.br_obj.driver.find_elements(By.XPATH, f"//a[translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩö', 'abcdefghijklmnopqrstuvwxyzαβγδεζηθικλμνξοπρστυφχψωo') = '{elem_text}']")[0]
+                            element = self.br_obj.driver.find_elements(By.XPATH, f"//a[translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZΑΆΒΓΔΕΈΖΗΉΘΙΊΚΛΜΝΞΟΌΠΡΣΤΥΎΦΧΨΩΏö', 'abcdefghijklmnopqrstuvwxyzαβγδεζηθικλμνξοπρστυφχψωo') = '{elem_text}']")[0]
                             element.click()
                         except:
                             print('No such link with text:', elem_text)
@@ -104,7 +104,7 @@ class MouseController:
                     print(elem_text)
                     found = False
                     try:
-                        element = self.br_obj.driver.find_elements(By.XPATH, f"//button[translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩö', 'abcdefghijklmnopqrstuvwxyzαβγδεζηθικλμνξοπρστυφχψωö') = '{elem_text}']")[0]
+                        element = self.br_obj.driver.find_elements(By.XPATH, f"//button[translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZΑΆΒΓΔΕΈΖΗΉΘΙΊΚΛΜΝΞΟΌΠΡΣΤΥΎΦΧΨΩΏö', 'abcdefghijklmnopqrstuvwxyzαβγδεζηθικλμνξοπρστυφχψωö') = '{elem_text}']")[0]
                         element.click()
                         found = True
                     except:
@@ -112,7 +112,7 @@ class MouseController:
 
                     if not found:
                         try:
-                            element = self.br_obj.driver.find_elements(By.XPATH, f"//span[translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩö', 'abcdefghijklmnopqrstuvwxyzαβγδεζηθικλμνξοπρστυφχψωö') = '{elem_text}']")[0]
+                            element = self.br_obj.driver.find_elements(By.XPATH, f"//span[translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZΑΆΒΓΔΕΈΖΗΉΘΙΊΚΛΜΝΞΟΌΠΡΣΤΥΎΦΧΨΩΏö', 'abcdefghijklmnopqrstuvwxyzαβγδεζηθικλμνξοπρστυφχψωö') = '{elem_text}']")[0]
                             element.click()
                             found = True 
                         except:
@@ -120,7 +120,7 @@ class MouseController:
 
                     if not found:
                         try:
-                            element = self.br_obj.driver.find_elements(By.XPATH, f"//div[@role='button' and translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩö', 'abcdefghijklmnopqrstuvwxyzαβγδεζηθικλμνξοπρστυφχψωö') = '{elem_text}']")[0]
+                            element = self.br_obj.driver.find_elements(By.XPATH, f"//div[@role='button' and translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZΑΆΒΓΔΕΈΖΗΉΘΙΊΚΛΜΝΞΟΌΠΡΣΤΥΎΦΧΨΩΏö', 'abcdefghijklmnopqrstuvwxyzαβγδεζηθικλμνξοπρστυφχψωö') = '{elem_text}']")[0]
                             element.click()
                             found = True 
                         except:
@@ -131,32 +131,32 @@ class MouseController:
                     self.br_obj.driver.back()  # Πήγαινε πίσω στην προηγούμενη σελίδα
                 elif self.text_query.lower() == w.TYPE:
                     self.type_in_search_bar()
-                elif self.text_query.lower() in [w.OPEN_GRID_1, w.OPEN_GRID_2, w.OPEN_GRID_3, w.OPEN_GRID_4]:
+                elif self.text_query.lower() in w.GRID_OPEN_LS:
                     grid.grid()
-                elif self.text_query.lower() in [w.CLOSE_GRID_1, w.CLOSE_GRID_2, w.CLOSE_GRID_3, w.CLOSE_GRID_4]:
+                elif self.text_query.lower() in w.GRID_CLOSE_LS:
                     grid.close()
                 elif self.text_query.lower() == w.NEW_SEARCH:
                     self.num_of_search += 1
                     self.search_bar_text = ""
                     break
-                elif query_parts[0].lower() in [w.DOWN, w.DOWN_2, w.LEFT, w.LEFT_2, w.RIGHT, w.RIGHT_2, w.UP_1, w.UP_2, w.UP_3]: # Εντολή μετακίνησης κέρσορα
+                elif query_parts[0].lower() in w.DOWN_LS + w.LEFT_LS + w.RIGHT_LS + w.UP_LS: # Εντολή μετακίνησης κέρσορα
                     direction = query_parts[0].lower()
                     num = self.parse_number(query_parts[1].lower())
                     self.move_mouse(direction, num)
                 elif query_parts[0].lower() == w.SCROLL and len(query_parts) == 3:
                     direction = query_parts[1].lower()
                     amount = self.parse_number(query_parts[2].lower())
-                    if direction in [w.DOWN, w.DOWN_2]:
+                    if direction in w.DOWN_LS:
                         pyautogui.scroll(-amount)
-                    elif direction in [w.UP_1, w.UP_2, w.UP_3]:
+                    elif direction in w.UP_LS:
                         pyautogui.scroll(amount)
-                elif self.text_query.lower() in [w.EXIT_1, w.EXIT_2]:
+                elif self.text_query.lower() in w.EXIT_LS:
                     running = False
                     break
 
     def parse_number(self, num_str: str):
         # Σε περίπτωση που πει 1000 και το αναγνωρίσει ως "χείλια":
-        if num_str == w.THOUSAND_1 or num_str == w.THOUSAND_2:
+        if num_str in w.THOUSAND_LS:
             return 1000
 
         num = 0
@@ -173,22 +173,22 @@ class MouseController:
     def move_mouse(self, direction, num):
         current_x, current_y = pyautogui.position()
 
-        if direction.strip() in [w.DOWN, w.DOWN_2]:
+        if direction.strip() in w.DOWN_LS:
             new_x = current_x
             new_y = current_y + num
             if new_y > pyautogui.size().height:
                 # Αν το ποντίκι είναι out of sight -> scroll down
                 pyautogui.press('down', presses=9)
-        elif direction.strip() in [w.UP_1, w.UP_2, w.UP_3]:
+        elif direction.strip() in w.UP_LS:
             new_x = current_x
             new_y = current_y - num
             if new_y < 0:
                 # # Αν το ποντίκι είναι out of sight -> scroll up
                 pyautogui.press('up', presses=9)
-        elif direction.strip() in [w.RIGHT, w.RIGHT_2]:
+        elif direction.strip() in w.RIGHT_LS:
             new_x = current_x + num
             new_y = current_y
-        elif direction.strip() in [w.LEFT, w.LEFT_2]:
+        elif direction.strip() in w.LEFT_LS:
             new_x = current_x - num
             new_y = current_y
         else:
