@@ -6,6 +6,7 @@ import time
 import pyautogui
 import grid as grid
 import WORDS as w
+from threading import Thread
 
 class MouseController:
     """
@@ -137,7 +138,8 @@ class MouseController:
                 elif self.text_query.lower() == w.TYPE:
                     self.type_in_search_bar()
                 elif self.text_query.lower() in w.GRID_OPEN_LS:
-                    grid.grid()
+                    thread = Thread(grid.grid()) # Σημείωση: να το κάνω με threads
+                    thread.start()
                 elif self.text_query.lower() in w.GRID_CLOSE_LS:
                     grid.close()
                 elif self.text_query.lower() == w.NEW_SEARCH:
