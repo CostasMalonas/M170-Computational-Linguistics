@@ -89,6 +89,9 @@ class MouseController:
                     continue
 
                 if query_parts[0].lower() in w.CLICK_LS:
+                    # Ο χρήστης μπορεί να πει CLIK 'το κείμενο από το link που βλέπει,
+                    # και με selenium να βρούμε το element που θέλει να κλικάρει και να 
+                    # πραγματοποιήσουμε το click functionality
                     if len(query_parts) > 1:
                         elem_text = ' '.join(query_parts[1:]).lower().strip()
                         print(elem_text)
@@ -100,6 +103,8 @@ class MouseController:
                     else:
                         pyautogui.click()  # Εκτέλεσε mouse click
                 elif query_parts[0].lower() == w.PRESS and len(query_parts) > 1: # Κουμπιά
+                    # Το ίδιο πράγμα με το παραπάνω σχόλιο αλλά με PRESS στην περίπτωση που ο χρήστης
+                    # θέλει να πατήσει κάποιο button element
                     elem_text = ' '.join(query_parts[1:]).lower().strip()
                     print(elem_text)
                     found = False
